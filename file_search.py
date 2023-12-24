@@ -10,9 +10,11 @@ def get_folder_size(folder_path):
                 elif entry.is_dir():
                     total_size += get_folder_size(entry.path)
     except PermissionError:
-        print(f"无法访问文件夹 {folder_path}，权限不足")
+        #print(f"无法访问文件夹 {folder_path}，权限不足")
+        return total_size
     except FileNotFoundError:
-        print(f"无法访问当前目录 {folder_path} 下的文件夹，路径不存在")
+        #print(f"无法访问当前目录 {folder_path} 下的文件夹，路径不存在")
+        return total_size
     return total_size
 
 def print_folder_sizes(base_path="."):
@@ -40,6 +42,7 @@ def main():
     else:
         print("指定的文件夹路径不存在")
 
+# windows 下文件夹快捷方式以后缀ink结果, 可以检查 entry.path, is_dir 的参数在 windows 下没用
 if __name__ == "__main__":
     # 白名单, 跳过遍历
     white_names = ["$RECYCLE.BIN", "MSOCache", "System Volume Information"]
