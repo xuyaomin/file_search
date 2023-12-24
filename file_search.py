@@ -18,13 +18,16 @@ def get_folder_size(folder_path):
     return total_size
 
 def print_folder_sizes(base_path="."):
+    total_size = 0
     with os.scandir(base_path) as iterator:
         for entry in iterator:
             if entry.name in white_names:
                 continue
             if entry.is_dir():
                 folder_size = get_folder_size(entry.path)
-                print(f"文件夹 {entry.name} 的大小为: {folder_size:.2f} MB")
+                print(f"文件夹 {entry.name} 的大小为: {folder_size / 1024 / 1024:.2f} MB")
+                total_size += folder_size
+    return total_size
 
 
 
@@ -35,10 +38,8 @@ def main():
         folder_path = "."
 
     if os.path.exists(folder_path):
-        # folder_size = get_folder_size(folder_path)
-        # print(f"文件夹 {folder_path} 的大小为: {folder_size:.2f} MB")
-        # print("各子文件夹的大小：")
-        print_folder_sizes(folder_path)
+        total_size = print_folder_sizes(folder_path)
+        print(f"文件夹 {folder_path} 的大小为: {total_size / 1024 / 1024:.2f} MB")
     else:
         print("指定的文件夹路径不存在")
 
