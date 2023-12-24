@@ -1,5 +1,13 @@
 import os
 
+# 文件夹大小, 子节转MB, GB
+def format_folder_size(folder_size):
+    mb = folder_size / 1024 / 1024
+    gb = mb / 1024
+    if gb > 1:
+        return "{:.0f}GB".format(gb)
+    return "{:.0f}MB".format(mb)
+
 def get_folder_size(folder_path):
     total_size = 0
     try:
@@ -25,7 +33,7 @@ def print_folder_sizes(base_path="."):
                 continue
             if entry.is_dir():
                 folder_size = get_folder_size(entry.path)
-                print(f"文件夹 {entry.name} 的大小为: {folder_size / 1024 / 1024:.2f} MB")
+                print(f"文件夹 {entry.name} 的大小为: {format_folder_size(folder_size)}")
                 total_size += folder_size
     return total_size
 
@@ -38,8 +46,8 @@ def main():
         folder_path = "."
 
     if os.path.exists(folder_path):
-        total_size = print_folder_sizes(folder_path)
-        print(f"文件夹 {folder_path} 的大小为: {total_size / 1024 / 1024:.2f} MB")
+        folder_size = print_folder_sizes(folder_path)
+        print(f"文件夹 {folder_path} 的大小为: {format_folder_size(folder_size)}")
     else:
         print("指定的文件夹路径不存在")
 
